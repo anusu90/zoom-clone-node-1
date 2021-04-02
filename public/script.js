@@ -85,3 +85,4 @@ peer.on("open", id => {
 
 document.getElementById("camera").addEventListener("click", startCamera)
 document.getElementById("screen").addEventListener("click", startScreenShare)
+
