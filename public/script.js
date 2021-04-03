@@ -22,7 +22,7 @@ let myVideoStream, myDisplayStream;
 //     host: "/",
 //     port: "443"
 // });
-const peer = new Peer();
+const peer = new Peer(undefined, { 'iceServers': [{ 'urls': ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'] }] });
 
 connectToNewUser = (userID, stream) => {
     console.log("New User Joined with ID: ", userID)
