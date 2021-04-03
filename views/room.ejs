@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/24a924ca11.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -14,20 +17,53 @@
 
         <br>
 
-        <div class="row">
-            <div class="col-md-8">
+        <div class="row h-100">
+            <div class="col-md-8 h-100">
                 <div id="video-grid"></div>
-
-                <div class="row" id="video-controls"></div>
-                <button id="camera">Camera</button>
-                <button id="screen">Screen</button>
+                <div class="row" id="video-controls">
+                    <span>
+                        <i class="fas fa-volume-mute"></i>
+                        <p>
+                            Toggle Mute
+                        </p>
+                    </span>
+                    <span>
+                        <i class="fas fa-compress"></i>
+                        <p>
+                            Full Screen
+                        </p>
+                    </span>
+                    <span>
+                        <i class="fas fa-video-slash"></i>
+                        <p>
+                            Toggle Video
+                        </p>
+                    </span>
+                    <span>
+                        <i class="fas fa-desktop"></i>
+                        <p>
+                            Share Screen
+                        </p>
+                    </span>
+                    <span>
+                        <i class="fas fa-users"></i>
+                        <p>
+                            Participants
+                        </p>
+                    </span>
+                </div>
                 
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-4 chat-col h-100">
                 <div class="chat_header">
-                    <h6>CHAT</h6>
-                    <div class="row" id="chat-controls"></div>
+                    <h6 style="text-align:center; color: grey; font-size: 16px;">Welcome to ChatMe!!</h6>
+                </div>
+                <div class="send-message-input">
+                    <input type="text" class="form-control" id="sendMessageInput">
+                </div>
+                <div class="row" id="chat-controls">
+                    <button class="btn btn-light" id="sendBtn"> Send</button>
                 </div>
             </div>
         </div>

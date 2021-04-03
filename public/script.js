@@ -1,9 +1,17 @@
 const videoGrid = document.getElementById("video-grid")
 const myVideo = document.createElement("video")
+myVideo.setAttribute("id", "myvideo")
 myVideo.muted = true;
+const chatHeader = document.querySelector(".chat_header")
+
+const whichStream = {
+    camera: true
+}
 
 
-var socket = io(); // connection to socket IO server has been made here.
+var socket = io("/"); // connection to socket IO server has been made here.
+
+console.log("socket is ", socket)
 let myVideoStream, myDisplayStream;
 
 const peer = new Peer(undefined, {
@@ -82,7 +90,66 @@ peer.on("open", id => {
 
 
 
+document.querySelector(".fa-desktop").addEventListener("click", () => {
+    changeStream();
+})
 
-document.getElementById("camera").addEventListener("click", startCamera)
-document.getElementById("screen").addEventListener("click", startScreenShare)
 
+const changeStream = async () => {
+
+    if (whichStream.camera) {
+
+        let myDisplayStream = await navigator.mediaDevices.getDisplayMedia({
+            video: {
+                cursor: 'always' | 'motion' | 'never',
+                displaySurface: 'application' | 'browser' | 'monitor' | 'window'
+            }
+        })
+        addVideoStream(myVideo, myDisplayStream)
+        whichStream.camera = false
+
+
+    } else {
+        let myVideStream2 = await navigator.mediaDevices.getUserMedia(
+            {
+                video: true,
+                audio: true
+            }
+        )
+        addVideoStream(myVideo, myVideStream2)
+        whichStream.camera = true
+    }
+
+}
+
+const sendMessage = () => {
+    let messageElement = document.createElement("p")
+    let message = document.querySelector("#sendMessageInput").value
+    messageElement.classList.add("sentMessage")
+    messageElement.innerHTML = `<div style="display: inline-block; background-color: cornflowerblue; padding: 10px; min-width: 50px;border-radius: 10px; text-align: center;">${message}</div>`;
+    socket.emit("sent-message", roomID, message)
+    chatHeader.append(messageElement)
+    document.querySelector("#sendMessageInput").value = ""
+}
+
+const receiveMessage = (message) => {
+    let messageElement = document.createElement("p")
+    messageElement.classList.add("recieveMessage")
+    messageElement.innerHTML = `<div style="display: inline-block; background-color: greenyellow; padding: 10px; min-width: 50px;border-radius: 10px; text-align: center;">${message}</div>`;;
+    chatHeader.append(messageElement)
+}
+
+document.querySelector("#sendMessageInput").addEventListener("keypress", (e) => {
+    if (e.key == "Enter") {
+        sendMessage()
+    }
+})
+
+
+document.querySelector("#sendBtn").addEventListener("click", (e) => {
+    sendMessage();
+})
+
+socket.on("received-message", (message) => {
+    receiveMessage(message)
+})

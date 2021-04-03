@@ -2,6 +2,7 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
 }
 
 html {
@@ -71,9 +72,66 @@ body {
   height: 90vh;
 }
 
+#video-controls {
+  height: 10vh;
+  /* background-color: black; */
+  display: flex;
+  justify-content: space-around;
+  vertical-align: middle;
+}
+
+#video-controls i {
+  color: whitesmoke;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#video-controls span {
+  text-align: center;
+  color: whitesmoke;
+}
+
 video {
   height: 300px;
   width: 400px;
   object-fit: cover;
   margin: 5px;
+  border-radius: 20px;
+}
+
+.chat_col {
+  background-color: whitesmoke;
+}
+
+.chat_header {
+  background-color: whitesmoke;
+  height: 70vh;
+  overflow: scroll;
+}
+
+.send-message-input {
+  margin: 20px 0px;
+}
+
+#chat-controls {
+  height: 10vh;
+  display: flex;
+  justify-content: end;
+  vertical-align: middle;
+  padding: 20px;
+}
+
+#chat-controls button {
+  height: 50px;
+  width: 100px;
+}
+
+.sentMessage {
+  text-align: right;
+  padding: 10px;
+}
+
+.recieveMessage {
+  text-align: left;
+  padding: 10px;
 }

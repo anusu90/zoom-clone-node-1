@@ -22,6 +22,8 @@ app.use("/peerjs", peerServer)
 app.get("/", (req, res) => {
     res.redirect(`/${uuidv4()}`)
 })
+
+
 app.get("/welcome", (req, res) => {
     res.render("welcome")
 })
@@ -39,6 +41,12 @@ io.on("connection", (socket) => {
         console.log(`A user joind the room ${roomID}`)
         socket.broadcast.to(roomID).emit("user-connected", userID)
     })
+
+
+    socket.on("sent-message", (roomID, message) => {
+        socket.broadcast.to(roomID).emit("received-message", message)
+    })
+
 })
 
 server.listen(3030, () => {
