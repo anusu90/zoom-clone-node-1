@@ -7,6 +7,9 @@ const chatHeader = document.querySelector(".chat_header")
 const whichStream = {
     camera: true
 }
+const clicked = {
+    isClicked: false
+}
 
 
 var socket = io("/"); // connection to socket IO server has been made here.
@@ -60,9 +63,7 @@ navigator.mediaDevices.getUserMedia({
 async function startCamera() {
 
 }
-
-
-async function startScreenShare() {
+async function getScreen() {
     myDisplayStream = await navigator.mediaDevices.getDisplayMedia({
         video: {
             cursor: 'always' | 'motion' | 'never',
@@ -97,39 +98,59 @@ document.querySelector(".fa-desktop").addEventListener("click", () => {
 
 const changeStream = async () => {
 
-    if (whichStream.camera) {
+    if (clicked.isClicked) {
 
-        let myDisplayStream = await navigator.mediaDevices.getDisplayMedia({
+
+    } else {
+        myDisplayStream = await navigator.mediaDevices.getDisplayMedia({
             video: {
                 cursor: 'always' | 'motion' | 'never',
                 displaySurface: 'application' | 'browser' | 'monitor' | 'window'
             }
         })
-        addVideoStream(myVideo, myDisplayStream)
-        whichStream.camera = false
-
-
-    } else {
-        let myVideStream2 = await navigator.mediaDevices.getUserMedia(
-            {
-                video: true,
-                audio: true
-            }
-        )
-        addVideoStream(myVideo, myVideStream2)
-        whichStream.camera = true
+        myDisplayStream.getVideoTracks().forEach(track => myVideoStream.addTrack(track))
+        console.log(myVideoStream.getVideoTracks())
     }
+
+
+
+
+
+    // if (whichStream.camera) {
+    //     let myDisplayStream = await navigator.mediaDevices.getDisplayMedia({
+    //         video: {
+    //             cursor: 'always' | 'motion' | 'never',
+    //             displaySurface: 'application' | 'browser' | 'monitor' | 'window'
+    //         }
+    //     })
+    //     addVideoStream(myVideo, myDisplayStream)
+    //     whichStream.camera = false
+
+
+    // } else {
+    //     let myVideStream2 = await navigator.mediaDevices.getUserMedia(
+    //         {
+    //             video: true,
+    //             audio: true
+    //         }
+    //     )
+    //     addVideoStream(myVideo, myVideStream2)
+    //     whichStream.camera = true
+
 
 }
 
 const sendMessage = () => {
     let messageElement = document.createElement("p")
     let message = document.querySelector("#sendMessageInput").value
-    messageElement.classList.add("sentMessage")
-    messageElement.innerHTML = `<div style="display: inline-block; background-color: cornflowerblue; padding: 10px; min-width: 50px;border-radius: 10px; text-align: center;">${message}</div>`;
-    socket.emit("sent-message", roomID, message)
-    chatHeader.append(messageElement)
-    document.querySelector("#sendMessageInput").value = ""
+    if (message) {
+        messageElement.classList.add("sentMessage")
+        messageElement.innerHTML = `<div style="display: inline-block; background-color: cornflowerblue; padding: 10px; min-width: 50px;border-radius: 10px; text-align: center;">${message}</div>`;
+        socket.emit("sent-message", roomID, message)
+        chatHeader.append(messageElement)
+        document.querySelector("#sendMessageInput").value = ""
+        chatHeader.scrollTop = chatHeader.scrollHeight;
+    }
 }
 
 const receiveMessage = (message) => {
@@ -137,6 +158,7 @@ const receiveMessage = (message) => {
     messageElement.classList.add("recieveMessage")
     messageElement.innerHTML = `<div style="display: inline-block; background-color: greenyellow; padding: 10px; min-width: 50px;border-radius: 10px; text-align: center;">${message}</div>`;;
     chatHeader.append(messageElement)
+    chatHeader.scrollTop = chatHeader.scrollHeight;
 }
 
 document.querySelector("#sendMessageInput").addEventListener("keypress", (e) => {
@@ -174,3 +196,33 @@ document.querySelector("#inviteBtn").addEventListener("click", async (e) => {
         mailSendReq.status === 200 ? document.querySelector("#inviteInput").value = "" : null;
     }
 })
+
+
+const toggleMute = (e) => {
+
+    console.log(myVideoStream.getTracks());
+
+    const sound = myVideoStream.getAudioTracks()[0].enabled;
+    if (sound) {
+        const sound = myVideoStream.getAudioTracks()[0].enabled = false;
+        e.target.style = "color:red;"
+    } else {
+        const sound = myVideoStream.getAudioTracks()[0].enabled = true;
+        e.target.style = "color:whitesmoke;"
+    }
+}
+
+const toggleVideo = (e) => {
+    const video = myVideoStream.getVideoTracks()[0].enabled;
+    if (video) {
+        const video = myVideoStream.getVideoTracks()[0].enabled = false;
+        e.target.style = "color:red;"
+    } else {
+        const video = myVideoStream.getVideoTracks()[0].enabled = true;
+        e.target.style = "color:whitesmoke;"
+    }
+}
+
+
+document.querySelector(".fa-volume-mute").addEventListener("click", (e) => toggleMute(e))
+document.querySelector(".fa-video-slash").addEventListener("click", (e) => toggleVideo(e))
