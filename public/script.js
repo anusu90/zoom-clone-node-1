@@ -185,7 +185,7 @@ document.querySelector("#inviteBtn").addEventListener("click", async (e) => {
             email: email,
             url: url
         }
-        let mailSendReq = await fetch("http://localhost:3030/inviteuser", {
+        let mailSendReq = await fetch("https://node-zoom-clone-1.herokuapp.com/inviteuser", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
