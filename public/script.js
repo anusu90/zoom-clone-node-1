@@ -17,11 +17,12 @@ var socket = io("/"); // connection to socket IO server has been made here.
 console.log("socket is ", socket)
 let myVideoStream, myDisplayStream;
 
-const peer = new Peer(undefined, {
-    path: "/peerjs",
-    host: "/",
-    port: "443"
-});
+// const peer = new Peer(undefined, {
+//     path: "/peerjs",
+//     host: "/",
+//     port: "443"
+// });
+const peer = new Peer();
 
 connectToNewUser = (userID, stream) => {
     console.log("New User Joined with ID: ", userID)
