@@ -153,3 +153,24 @@ document.querySelector("#sendBtn").addEventListener("click", (e) => {
 socket.on("received-message", (message) => {
     receiveMessage(message)
 })
+
+document.querySelector("#inviteBtn").addEventListener("click", async (e) => {
+    let email = document.querySelector("#inviteInput").value;
+    if (email) {
+        let url = window.location.href;
+        let inviteData = {
+            email: email,
+            url: url
+        }
+        let mailSendReq = await fetch("http://localhost:3030/inviteuser", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(inviteData)
+        })
+
+        mailSendReq.status === 200 ? document.querySelector("#inviteInput").value = "" : null;
+    }
+})

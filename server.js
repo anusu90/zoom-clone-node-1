@@ -6,9 +6,11 @@ const { v4: uuidv4 } = require('uuid');
 const io = require("socket.io")(server)
 const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(server, {
-    // path: '/myapp',
     debug: true
 })
+
+const sendMail = require("./sendgrid");
+const { resolveNaptr } = require("dns");
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -31,6 +33,24 @@ app.get("/welcome", (req, res) => {
 
 app.get("/:room", (req, res) => {
     res.render("room", { roomID: req.params.room })
+})
+
+app.post("/inviteuser", (req, res) => {
+
+    let email = req.body.email;
+    let url = req.body.url;
+
+    console.log(req.body)
+
+    let sendMailRequest = sendMail(email, url)
+    sendMailRequest.then(() => {
+        res.status(200).send("Mail sent");
+        console.log("mail sent")
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send("Mail Not Sent. Check server logs")
+    })
+
 })
 
 

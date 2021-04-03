@@ -6,7 +6,7 @@
 }
 
 html {
-  height: 100vh;
+  min-height: 100vh;
   background: rgb(255, 255, 255);
   background: linear-gradient(
     111deg,
@@ -69,7 +69,11 @@ body {
 #video-grid {
   /* display: flex;
   justify-content: space-around; */
-  height: 90vh;
+  height: 70vh;
+}
+
+.inviteUserRow {
+  margin: 40px 0px;
 }
 
 #video-controls {
@@ -86,14 +90,20 @@ body {
   cursor: pointer;
 }
 
+#video-controls i:hover {
+  color: gray;
+  font-size: 24px;
+  cursor: pointer;
+}
+
 #video-controls span {
   text-align: center;
   color: whitesmoke;
 }
 
 video {
-  height: 300px;
-  width: 400px;
+  height: 270px;
+  width: 360px;
   object-fit: cover;
   margin: 5px;
   border-radius: 20px;

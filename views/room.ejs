@@ -20,6 +20,16 @@
         <div class="row h-100">
             <div class="col-md-8 h-100">
                 <div id="video-grid"></div>
+                <div id="invite-user">
+                    <div class="row inviteUserRow">
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="inviteInput" required>
+                        </div>
+                        <div class="col-sm-">
+                            <button class="btn btn-light" id="inviteBtn">Invite</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row" id="video-controls">
                     <span>
                         <i class="fas fa-volume-mute"></i>
@@ -51,8 +61,13 @@
                             Participants
                         </p>
                     </span>
+                    <span>
+                        <i class="fas fa-sign-out-alt" style="color: red;"></i>
+                        <p>
+                            Leave
+                        </p>
+                    </span>
                 </div>
-                
             </div>
             
             <div class="col-md-4 chat-col h-100">
